@@ -30,7 +30,7 @@ const ReferencesView: FC = () => {
       className={classes.root}
       title="Search References"
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={false}>
         <Header />
 
         <Box mt={3}>
@@ -38,6 +38,7 @@ const ReferencesView: FC = () => {
         </Box>
 
       </Container>
+
     </Page>
   );
 };
