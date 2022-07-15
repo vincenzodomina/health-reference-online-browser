@@ -186,7 +186,7 @@ const loincUniLabOrderCodesExtended: LoincUniLabOrderCodes[] = [
 ];
 
 export const loincUniLabOrderCodesMapped: SpecialParameter[] = [
-    ...(loincUniLabOrderCodesExtended || []).map(l => { return { id: l.LOINC_NUM, name_long: l.LONG_COMMON_NAME, unit: '' } }),
+    ...(loincUniLabOrderCodesExtended || []).map(l => { return { id: l.LOINC_NUM, name: l.LONG_COMMON_NAME, default_unit_id: '' } }),
 
 ];
 
@@ -215,7 +215,7 @@ export const getLoincCode = {
     filteredList: {
         ...Object.assign({}, {}, ...(biomarkerLaboratoryIds || []).map(bid => {
             return {
-                [bid]: [...loincUniLabOrderCodesMapped.filter(l => getLoincLabFilterTerms(bid).some(el => l.name_long.toLowerCase().includes(el)))],
+                [bid]: [...loincUniLabOrderCodesMapped.filter(l => getLoincLabFilterTerms(bid).some(el => l.name.toLowerCase().includes(el)))],
             }
         }))
     },

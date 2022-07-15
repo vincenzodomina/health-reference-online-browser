@@ -2,7 +2,7 @@
   "name": "@cure-dao/health-reference-online-browser",
   "author": "CureDAO",
   "licence": "LICENSED",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "lint": "eslint ./src",

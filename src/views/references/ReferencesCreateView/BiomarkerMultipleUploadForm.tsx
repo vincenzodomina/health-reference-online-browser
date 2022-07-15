@@ -206,7 +206,7 @@ const BiomarkerMultipleUploadForm: FC<BiomarkerMultipleUploadFormProps> = ({ cla
                       variant="caption"
                       color="textPrimary"
                     >
-                      {'Required fields are: category, id, name_long, unit, value_type'}
+                      {'Required fields are: category, id, name, unit, value_type'}
                     </Typography>
                   </Box>
 

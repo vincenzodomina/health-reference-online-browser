@@ -83,8 +83,8 @@ export const importBiomarkerData = async (constructOptions: ConstructImportBioma
                             let importBiomarker: Biomarker = {
                                 category: '',
                                 id: '',
-                                name_long: '',
-                                unit: '',
+                                name: '',
+                                default_unit_id: '',
                                 value_type: 'int'
                             };
                             row.map((field, i) => {

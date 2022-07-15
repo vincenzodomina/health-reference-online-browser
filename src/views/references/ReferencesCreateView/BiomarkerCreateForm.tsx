@@ -80,8 +80,8 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
   const biomarkersData = useSelector<BiomarkersState>((state) => state.biomarkers);
   const [biomarker, setBiomarker] = useState<Biomarker>();
   const [references, setReferences] = useState<string>('');
-  const [showAliases, setShowAliases] = useState<boolean>(true);
-  const [aliases, setAliases] = useState<string>('');
+  const [showSynonyms, setShowSynonymes] = useState<boolean>(true);
+  const [synonyms, setSynonyms] = useState<string>('');
 
   useEffect(() => {
     // id is string or undefined, is called when mounted and when healthData is loaded
@@ -109,13 +109,13 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
       enableReinitialize
       initialValues={{
         id: biomarker?.id ? biomarker.id : '',
-        aliases: biomarker?.aliases?.length ? biomarker?.aliases : [],
+        synonyms: biomarker?.synonyms?.length ? biomarker?.synonyms : [],
         category: biomarker?.category ? (biomarkerCategories.find(c => c.id === biomarker.category) || biomarkerCategories[0]) : biomarkerCategories[0],
         type: biomarker?.type || '',
         subtype: biomarker?.subtype || '',
-        name_short: biomarker?.name_short || '',
-        name_long: biomarker?.name_long || '',
-        unit: biomarker?.unit ? (ucumCodesMapped.find(c => c.id === biomarker.unit) || { id: '', name: '' }) : { id: '', name: '' },
+        abbreviated_name: biomarker?.abbreviated_name || '',
+        name: biomarker?.name || '',
+        default_unit_id: biomarker?.default_unit_id ? (ucumCodesMapped.find(c => c.id === biomarker.default_unit_id) || { id: '', name: '' }) : { id: '', name: '' },
         value_type: biomarker?.value_type ? biomarkerInputValueTypes.find(v => v.id === biomarker.value_type) : biomarkerInputValueTypes[0],
         description: biomarker?.description || '',
         references: biomarker?.references?.length ? biomarker?.references : [],
@@ -124,16 +124,16 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
       }}
       validationSchema={Yup.object().shape({
         id: Yup.string().required('Id is required'),
-        aliases: Yup.array(),
+        synonyms: Yup.array(),
         category: Yup.object({
           id: Yup.string().required('Category is required'),
           name: Yup.string().required('Category is required'),
         }),
         type: Yup.string(),
         subtype: Yup.string(),
-        name_short: Yup.string().max(255),
-        name_long: Yup.string().max(255).required('Name is required'),
-        unit: Yup.object({
+        abbreviated_name: Yup.string().max(255),
+        name: Yup.string().max(255).required('Name is required'),
+        default_unit_id: Yup.object({
           id: Yup.string().required('Unit is required'),
           name: Yup.string().required('Unit is required'),
         }),
@@ -157,13 +157,13 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
 
           let biomarkerData: Biomarker = {
             id: values.id.trim(),
-            ...(values?.aliases?.length ? { aliases: values.aliases } : {}),
+            ...(values?.synonyms?.length ? { synonyms: values.synonyms } : {}),
             category: values.category?.id || biomarkerCategories[0].id,
             ...(values?.type ? { type: values.type } : {}),
             ...(values?.subtype ? { subtype: values.subtype } : {}),
-            ...(values?.name_short ? { name_short: values.name_short } : {}),
-            name_long: values.name_long,
-            unit: values.unit.id,
+            ...(values?.abbreviated_name ? { abbreviated_name: values.abbreviated_name } : {}),
+            name: values.name,
+            default_unit_id: values.default_unit_id.id,
             value_type: values.value_type.id as BiomarkerInputValues,
             description: values.description,
             references: values.references,
@@ -326,14 +326,14 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
                     >
                       <Box>
                         <TextField
-                          error={Boolean(touched.name_long && errors.name_long)}
+                          error={Boolean(touched.name && errors.name)}
                           fullWidth
-                          helperText={touched.name_long && errors.name_long}
+                          helperText={touched.name && errors.name}
                           label="Name"
-                          name="name_long"
+                          name="name"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.name_long}
+                          value={values.name}
                           variant="outlined"
                         />
                       </Box>
@@ -369,14 +369,14 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
                           getOptionLabel={(option) => option.name}
                           getOptionSelected={(option, value,) => value.id === option.id}
                           options={ucumCodesMapped}
-                          value={values.unit}
+                          value={values.default_unit_id}
                           onChange={(event, newValue) => {
                             setFieldValue("unit", newValue)
                           }}
                           //filterOptions={autocompleteFilterOptions}
                           renderInput={(params) => (
                             <TextField
-                              error={Boolean(touched.unit && errors.unit)}
+                              error={Boolean(touched.default_unit_id && errors.default_unit_id)}
                               fullWidth
                               label="Unit (UCUM)"
                               name="unit"
@@ -514,15 +514,15 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
                       <FormControlLabel
                         control={(
                           <Switch
-                            checked={showAliases}
-                            onChange={e => setShowAliases(e.target.checked)}
+                            checked={showSynonyms}
+                            onChange={e => setShowSynonymes(e.target.checked)}
                           />
                         )}
-                        label="Show Aliases"
+                        label="Show Synonymes"
                       />
                     </Grid>
 
-                    {showAliases ?
+                    {showSynonyms ?
                       <React.Fragment>
                         <Grid
                           item
@@ -536,27 +536,27 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
                           >
                             <TextField
                               fullWidth
-                              label="Aliases"
-                              name="aliases"
-                              value={aliases}
-                              onChange={(event) => setAliases(event.target.value)}
+                              label="Synonymes"
+                              name="synonyms"
+                              value={synonyms}
+                              onChange={(event) => setSynonyms(event.target.value)}
                               variant="outlined"
                               onKeyDown={(e) => {
-                                if (!aliases || e.key !== 'Enter') {
+                                if (!synonyms || e.key !== 'Enter') {
                                   return;
                                 };
-                                setFieldValue('aliases', [...values.aliases, aliases]);
-                                setAliases('');
+                                setFieldValue('synonyms', [...values.synonyms, synonyms]);
+                                setSynonyms('');
                               }}
                             />
                             <IconButton
                               className={classes.addTab}
                               onClick={() => {
-                                if (!aliases) {
+                                if (!synonyms) {
                                   return;
                                 };
-                                setFieldValue('aliases', [...values.aliases, aliases]);
-                                setAliases('');
+                                setFieldValue('synonyms', [...values.synonyms, synonyms]);
+                                setSynonyms('');
                               }}
                             >
                               <SvgIcon>
@@ -565,26 +565,26 @@ const BiomarkerCreateForm: FC<BiomarkerCreateFormProps> = ({ className, ...rest 
                             </IconButton>
                           </Box>
                           <Box mt={2}>
-                            {values.aliases.map((alias, i) => (
+                            {values.synonyms.map((synonym, i) => (
                               <Box mb={2}
                                 key={i}
                               >
                                 <Chip
                                   variant="outlined"
-                                  label={alias}
+                                  label={synonym}
                                   className={classes.tag}
                                   onDelete={() => {
-                                    const newAliases = values.aliases.filter((t) => t !== alias);
-                                    setFieldValue('aliases', newAliases);
+                                    const newSynonyms = values.synonyms.filter((t) => t !== synonym);
+                                    setFieldValue('synonyms', newSynonyms);
                                   }}
                                 />
                               </Box>
                             ))}
                           </Box>
-                          {Boolean(touched.aliases && errors.aliases) && (
+                          {Boolean(touched.synonyms && errors.synonyms) && (
                             <Box mt={2}>
                               <FormHelperText error>
-                                {errors.aliases}
+                                {errors.synonyms}
                               </FormHelperText>
                             </Box>
                           )}

@@ -1,9 +1,6 @@
-import { nutritionParametersAll } from 'src/constants/nutritionTables';
-import { sleepParameters } from 'src/constants/sleepTables';
+
 import { medicationParameters, supplementationParameters } from 'src/constants/medicationTables';
 import { ContentTable } from 'src/models/table.model';
-import { bloodMetabolitesLipidsCodes } from './biomarkers/bloodMetabolitesLipidsCodes';
-import { bloodPlasmaProteinCodes } from './biomarkers/bloodPlasmaProteinCodes';
 import { loincUniLabOrderCodesMapped } from './loincCodes';
 import { Biomarker, BiomarkerExtended } from 'src/models/biomarker.model';
 
@@ -23,32 +20,6 @@ export const biomarkerSpecialIds: string[] = [ // Add biomarker here with not si
     'blood_pressure',
     ...biomarkerSpecialIdsWithParameters
 ];
-
-export const specialBiomarkerTables = {        // without 'tag','blood_pressure',
-    sleep_episode: sleepParameters,
-    medication_prescription: medicationParameters,
-    supplementation: supplementationParameters,
-    nutrition: nutritionParametersAll,
-    //blood_pressure: bloodPressureParameters, // not used here, so value_sets can be created
-};
-
-// These tables are used for displaying all biomarkers at "All biomarkers" - page:
-export const secondLevelBiomarkerTables = {
-    sleep_episode: sleepParameters,
-    nutrition: nutritionParametersAll,
-    // blood_pressure: bloodPressureParameters, // listed also in first level
-    // medication_prescription: rxNormCodesMapped, // TODO: instead of listing, a link to RXNORM with search feature
-    // bloodMetabolitesLipids: bloodMetabolitesLipidsCodes, // listed separately
-    // bloodPlasmaProteins: bloodPlasmaProteinCodes,        // listed separately
-    // loincCodes: loincUniLabOrderCodesMapped              // listed separately
-};
-
-// These tables are used for displaying lab biomarkers at "All biomarkers" - page:
-export const labBiomarkerTables = {
-    "Blood Metabolite Lipids": bloodMetabolitesLipidsCodes,
-    "Blood Plasma Proteins": bloodPlasmaProteinCodes,
-    "Loinc Codes": loincUniLabOrderCodesMapped
-};
 
 export const biomarkerCategories: ContentTable[] = [
     { id: '', name: '' },
@@ -87,11 +58,11 @@ export const biomarkerInputValueTypes: ContentTable[] = [
 export const biomarkerDefault: Biomarker = {
     id: '',
     category: '',
-    name_long: '',
-    unit: ''
+    name: '',
+    default_unit_id: ''
 };
 
-export const biomarkerRequiredImportFormat = ['category', 'id', 'loinc', 'type', 'subtype', 'classification', 'name_short', 'name_long', 'unit', 'value_type', 'default_value', 'description', 'references', 'aliases'];
+export const biomarkerRequiredImportFormat = ['category', 'id', 'loinc', 'type', 'subtype', 'classification', 'name_short', 'name', 'unit', 'value_type', 'default_value', 'description', 'references', 'aliases'];
 
 // (Special-)Biomarkers with values to be rendered as Dates
 export const biomarkersWithDateValues = ['sleep_bedtime_start', 'sleep_bedtime_end'];
@@ -102,43 +73,43 @@ export const biomarkerCustoms: Biomarker[] = [
     {
         id: 'custom_bool',
         category: 'custom',
-        name_long: 'Custom Event',
-        unit: '{bool}',
+        name: 'Custom Event',
+        default_unit_id: '{bool}',
         value_type: 'bool'
     },
     {
         id: 'custom_rating_5',
         category: 'custom',
-        name_long: 'Custom Rating (1-5)',
-        unit: '{rating_5}',
+        name: 'Custom Rating (1-5)',
+        default_unit_id: '{rating_5}',
         value_type: 'int'
     },
     {
         id: 'custom_rating_10',
         category: 'custom',
-        name_long: 'Custom Rating (1-10)',
-        unit: '{rating_10}',
+        name: 'Custom Rating (1-10)',
+        default_unit_id: '{rating_10}',
         value_type: 'int'
     },
     {
         id: 'custom_int',
         category: 'custom',
-        name_long: 'Custom Number',
-        unit: '{count}',
+        name: 'Custom Number',
+        default_unit_id: '{count}',
         value_type: 'int'
     },
     {
         id: 'custom_float',
         category: 'custom',
-        name_long: 'Custom Number with Decimals',
-        unit: '{#}',
+        name: 'Custom Number with Decimals',
+        default_unit_id: '{#}',
         value_type: 'float'
     },
     {
         id: 'custom_percentage',
         category: 'custom',
-        name_long: 'Custom Percentage',
-        unit: '%',
+        name: 'Custom Percentage',
+        default_unit_id: '%',
         value_type: 'int'
     }
 ];
@@ -148,8 +119,8 @@ export const biomarkerTag: BiomarkerExtended[] = [
     {
         id: 'tag',
         category: 'event',
-        name_long: 'Tag',
-        unit: 'tag',
+        name: 'Tag',
+        default_unit_id: 'tag',
         value_type: 'int',
         input_settings: {
             hideMethod: true,
@@ -170,8 +141,8 @@ export const biomarkerSettings: Record<string, BiomarkerExtended> = {
     // {
     //     id: '',
     //     category: '',
-    //     name_long: '',
-    //     unit: '',       // UCUM Code
+    //     name: '',
+    //     default_unit_id: '',       // UCUM Code
     //     input_settings: {
     //         value_2: false,
     //         unit_2: '',
@@ -187,32 +158,32 @@ export const biomarkerSettings: Record<string, BiomarkerExtended> = {
     blood_analysis: {
         id: 'blood_analysis',
         category: 'laboratory',
-        name_long: 'Blood Analysis',
-        unit: '',
+        name: 'Blood Analysis',
+        default_unit_id: '',
         value_type: 'int',
         import_format_single: ['timestamp', 'LOINC Code 1 [UCUM Unit]', 'LOINC Code 2 [UCUM Unit]', 'LOINC Code 3 [UCUM Unit]', ' ... ']
     },
     urine_analysis: {
         id: 'urine_analysis',
         category: 'laboratory',
-        name_long: 'Urine Analysis',
-        unit: '',
+        name: 'Urine Analysis',
+        default_unit_id: '',
         value_type: 'int',
         import_format_single: ['timestamp', 'LOINC Code 1 [UCUM Unit]', 'LOINC Code 2 [UCUM Unit]', 'LOINC Code 3 [UCUM Unit]', ' ... ']
     },
     saliva_analysis: {
         id: 'saliva_analysis',
         category: 'laboratory',
-        name_long: 'Saliva Analysis',
-        unit: '',
+        name: 'Saliva Analysis',
+        default_unit_id: '',
         value_type: 'int',
         import_format_single: ['timestamp', 'LOINC Code 1 [UCUM Unit]', 'LOINC Code 2 [UCUM Unit]', 'LOINC Code 3 [UCUM Unit]', ' ... ']
     },
     stool_analysis: {
         id: 'stool_analysis',
         category: 'laboratory',
-        name_long: 'Stool Analysis',
-        unit: '',
+        name: 'Stool Analysis',
+        default_unit_id: '',
         value_type: 'int',
         import_format_single: ['timestamp', 'LOINC Code 1 [UCUM Unit]', 'LOINC Code 2 [UCUM Unit]', 'LOINC Code 3 [UCUM Unit]', ' ... ']
     },
@@ -220,8 +191,8 @@ export const biomarkerSettings: Record<string, BiomarkerExtended> = {
     blood_pressure: {
         id: 'blood_pressure',
         category: 'vital',
-        name_long: 'Blood Pressure',
-        unit: 'mm[Hg]',
+        name: 'Blood Pressure',
+        default_unit_id: 'mm[Hg]',
         value_type: 'int',
         input_settings: {
             value_2: true,
@@ -234,8 +205,8 @@ export const biomarkerSettings: Record<string, BiomarkerExtended> = {
     medication_prescription: {
         id: 'medication_prescription',
         category: 'intervention',
-        name_long: 'Medication',
-        unit: '',
+        name: 'Medication',
+        default_unit_id: '',
         value_type: 'int',
         input_settings: {
             hideMethod: true,
@@ -252,8 +223,8 @@ export const biomarkerSettings: Record<string, BiomarkerExtended> = {
     supplementation: {
         id: 'supplementation',
         category: 'intervention',
-        name_long: 'Supplementation',
-        unit: '',
+        name: 'Supplementation',
+        default_unit_id: '',
         value_type: 'int',
         input_settings: {
             hideMethod: true,
@@ -267,35 +238,33 @@ export const biomarkerSettings: Record<string, BiomarkerExtended> = {
     nutrition: {
         id: 'nutrition',
         category: 'nutrition',
-        name_long: 'Meal',
-        unit: '',
+        name: 'Meal',
+        default_unit_id: '',
         value_type: 'int',
         input_settings: {
             hideMethod: true,
             hideValue: true,
         },
-        import_format_single: ['date', ...nutritionParametersAll.map(s => `${s.id} [${s.unit}]`)],
     },
     /// SLEEP ////
     sleep_episode: {
         id: 'sleep_episode',
         category: 'sleep',
-        name_long: 'Sleep Episode',
-        unit: '',
+        name: 'Sleep Episode',
+        default_unit_id: '',
         value_type: 'int',
         input_settings: {
             time_interval: true,
             hideValue: true,
         },
-        import_format_single: ['date', ...sleepParameters.map(s => `${s.id} [${s.unit}]`)],
 
     },
     // Life events
     tag: {
         id: 'tag',
         category: 'event',
-        name_long: 'Tag',
-        unit: '{TmStp}',
+        name: 'Tag',
+        default_unit_id: '{TmStp}',
         value_type: 'int',
         input_settings: {
             hideMethod: true,

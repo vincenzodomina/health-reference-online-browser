@@ -79,7 +79,7 @@ const TopBar: FC<TopBarProps> = ({ className, ...rest }) => {
           </RouterLink>
         </Hidden>
         <Box flexGrow={1} />
-        <Link
+        {/* <Link
           className={classes.link}
           color="textSecondary"
           //component={RouterLink}
@@ -89,7 +89,16 @@ const TopBar: FC<TopBarProps> = ({ className, ...rest }) => {
           variant="body2"
         >
           {"Documentation"}
-        </Link>
+        </Link> */}
+        <Box p={2} pt={5}>
+
+          <Typography
+            variant="caption"
+            color="textPrimary"
+          >
+            {`Reference Browser - ${environment.version}`}
+          </Typography>
+        </Box>
         <Divider className={classes.divider} />
         <Box mr={2}>
           <Settings />
@@ -100,7 +109,7 @@ const TopBar: FC<TopBarProps> = ({ className, ...rest }) => {
           size="small"
           //onClick={handleOnClick}
           href={businessLogic.url_main_website}
-          //target="_blank"
+        //target="_blank"
         >
           Home
         </Button>

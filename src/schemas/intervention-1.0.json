@@ -38,7 +38,7 @@
             "description": "the short (display) name of the intervention",
             "type": "string"
         },
-        "name_long": {
+        "name": {
             "description": "the full (display) name of the intervention",
             "type": "string"
         },
@@ -86,7 +86,7 @@
 
     "required": [
         "id",
-        "name_long",
+        "name",
         "references"
     ]
 }

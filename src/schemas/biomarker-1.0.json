@@ -18,10 +18,10 @@
     "id": {
       "type": "string"
     },
-    "name_long": {
+    "name": {
       "type": "string"
     }
   },
 
-  "required": ["id", "name_long"]
+  "required": ["id", "name"]
 }

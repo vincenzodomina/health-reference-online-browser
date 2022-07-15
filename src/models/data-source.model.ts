@@ -1,6 +1,6 @@
 export interface DataSource {
   id: string;
-  name_long: string;
+  name: string;
   reference?: string;
   loginUrl?: string;
   logo?: string;

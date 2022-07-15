@@ -1,20 +1,20 @@
 import { SpecialParameter } from "src/models/biomarker.model";
 
 export const medicationParameters: SpecialParameter[] = [
-    { id: 'description', name_long: 'Prescription description', unit: '{string}' },
-    { id: 'generic_name', name_long: 'Generic Name', unit: '{string}' },
-    { id: 'trade_name', name_long: 'Trade Name', unit: '{string}' },
-    { id: 'rxnorm_code', name_long: 'Rxnorm Code', unit: '{#}' },
-    { id: 'route', name_long: 'Route', unit: '{string}' },
-    { id: 'prescription_trigger', name_long: 'Prescription Trigger', unit: '{string}' },
-    { id: 'medication_adherence_percent', name_long: 'Medication Adherence Percent', unit: '%' },
+    { id: 'description', name: 'Prescription description', default_unit_id: '{string}' },
+    { id: 'generic_name', name: 'Generic Name', default_unit_id: '{string}' },
+    { id: 'trade_name', name: 'Trade Name', default_unit_id: '{string}' },
+    { id: 'rxnorm_code', name: 'Rxnorm Code', default_unit_id: '{#}' },
+    { id: 'route', name: 'Route', default_unit_id: '{string}' },
+    { id: 'prescription_trigger', name: 'Prescription Trigger', default_unit_id: '{string}' },
+    { id: 'medication_adherence_percent', name: 'Medication Adherence Percent', default_unit_id: '%' },
     // TODO: strength
     // TODO: schedule
 ];
 
 export const supplementationParameters = [
-    { id: 'description', name_long: 'Application description', unit: '{string}' },
-    { id: 'generic_name', name_long: 'Generic Name', unit: '{string}' },
+    { id: 'description', name: 'Application description', default_unit_id: '{string}' },
+    { id: 'generic_name', name: 'Generic Name', default_unit_id: '{string}' },
     // TODO: strength
     // TODO: schedule
 ];
